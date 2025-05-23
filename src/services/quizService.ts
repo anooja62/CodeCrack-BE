@@ -26,11 +26,14 @@ Answer: <correct option letter>`;
       const optionsMatch = block.match(/Options:\s*A\)\s*(.*?)\nB\)\s*(.*?)\nC\)\s*(.*?)\nD\)\s*(.*?)(?=\n|$)/);
       const answerMatch = block.match(/Answer:\s*([A-D])/);
 
+      const letterToIndex = { A: 0, B: 1, C: 2, D: 3 };
+
       return {
         question: questionMatch?.[1] || "",
         options: optionsMatch ? [optionsMatch[1], optionsMatch[2], optionsMatch[3], optionsMatch[4]] : [],
-        answer: answerMatch?.[1] || "",
+        answer: letterToIndex[answerMatch?.[1] as keyof typeof letterToIndex] ?? -1,
       };
+      
     });
     return questions;
 } catch (error) {
